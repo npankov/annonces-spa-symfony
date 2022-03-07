@@ -18,3 +18,10 @@
 /phpunit.xml
 .phpunit.result.cache
 ###< phpunit/phpunit ###
+/.idea/.gitignore
+/.idea/modules.xml
+/.idea/php.xml
+/.idea/phpunit.xml
+/.idea/symfony2.xml
+/.idea/symfony-human-booster.iml
+/.idea/vcs.xml
