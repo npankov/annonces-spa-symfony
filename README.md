@@ -1,4 +1,4 @@
-# Projet : annonces de SPA / éleveurs
+# Projet : annonces de SPA (Société Protectrice des Animaux) / éleveurs
 ### En cours de developpement par [Jean Paul](https://github.com/MrBengs), [Nikolai](https://github.com/npankov), [Luca](https://github.com/Luca777r), [Fares](https://github.com/Farwesto).
 Nous allons mettre en place un projet Symfony. 
 
