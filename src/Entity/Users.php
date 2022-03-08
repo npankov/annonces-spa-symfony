@@ -37,7 +37,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Request::class, mappedBy: 'users')]
     private $requests;
 
-    #[ORM\OneToMany(mappedBy: 'relation', targetEntity: Message::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Message::class)]
     private $messages;
 
     public function __construct()
@@ -155,7 +155,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->messages->contains($message)) {
             $this->messages[] = $message;
-            $message->setRelation($this);
+            $message->setUser($this);
         }
 
         return $this;
@@ -165,8 +165,8 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->messages->removeElement($message)) {
             // set the owning side to null (unless already changed)
-            if ($message->getRelation() === $this) {
-                $message->setRelation(null);
+            if ($message->getUser() === $this) {
+                $message->setUser(null);
             }
         }
 

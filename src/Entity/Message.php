@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\MessageRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
@@ -19,9 +21,13 @@ class Message
     #[ORM\Column(type: 'string', length: 8000, nullable: true)]
     private $text;
 
-    #[ORM\ManyToOne(targetEntity: users::class, inversedBy: 'messages')]
+    #[ORM\ManyToOne(targetEntity: Announcement::class, inversedBy: 'messages')]
     #[ORM\JoinColumn(nullable: false)]
-    private $relation;
+    private $announcement;
+
+    #[ORM\ManyToOne(targetEntity: Users::class, inversedBy: 'messages')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $user;
 
     public function getId(): ?int
     {
@@ -52,14 +58,26 @@ class Message
         return $this;
     }
 
-    public function getRelation(): ?users
+    public function getAnnouncement(): ?Announcement
     {
-        return $this->relation;
+        return $this->announcement;
     }
 
-    public function setRelation(?users $relation): self
+    public function setAnnouncement(?Announcement $announcement): self
     {
-        $this->relation = $relation;
+        $this->announcement = $announcement;
+
+        return $this;
+    }
+
+    public function getUser(): ?Users
+    {
+        return $this->user;
+    }
+
+    public function setUser(?Users $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
