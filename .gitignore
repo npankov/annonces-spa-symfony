@@ -26,3 +26,7 @@
 /.idea/symfony-human-booster.iml
 /.idea/vcs.xml
 /.idea/annonces-spa-symfony.iml
+<<<<<<< HEAD
+=======
+/.idea/dataSources.xml
+>>>>>>> 4bca0c2 (ticket-3 Tables Announcement, Message)
