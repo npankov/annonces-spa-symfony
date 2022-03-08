@@ -6,15 +6,10 @@ use App\Repository\AdopterRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AdopterRepository::class)]
-class Adopter
+class Adopter extends Users
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
-
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
-    private $Town;
+    private $town;
 
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
     private $department;
@@ -31,31 +26,14 @@ class Adopter
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
     private $lastName;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getIdUsers(): ?int
-    {
-        return $this->idUsers;
-    }
-
-    public function setIdUsers(int $idUsers): self
-    {
-        $this->idUsers = $idUsers;
-
-        return $this;
-    }
-
     public function getTown(): ?string
     {
-        return $this->Town;
+        return $this->town;
     }
 
-    public function setTown(string $Town): self
+    public function setTown(string $town): self
     {
-        $this->Town = $Town;
+        $this->town = $town;
 
         return $this;
     }

@@ -6,20 +6,10 @@ use App\Repository\BreederRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BreederRepository::class)]
-class Breeder
+class Breeder extends Users
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
-
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
     private $name;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getName(): ?string
     {
