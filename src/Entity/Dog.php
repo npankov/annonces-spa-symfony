@@ -30,9 +30,13 @@ class Dog
     #[ORM\OneToMany(mappedBy: 'dog', targetEntity: Picture::class)]
     private $pictures;
 
+    #[ORM\ManyToMany(targetEntity: Request::class, mappedBy: 'relation')]
+    private $requests;
+
     public function __construct()
     {
         $this->pictures = new ArrayCollection();
+        $this->requests = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -106,6 +110,24 @@ class Dog
         return $this;
     }
 
+    /**
+     * @return Collection<int, Request>
+     */
+    public function getRequests(): Collection
+    {
+        return $this->requests;
+    }
+
+    public function addRequest(Request $request): self
+    {
+        if (!$this->requests->contains($request)) {
+            $this->requests[] = $request;
+            $request->addRelation($this);
+        }
+
+        return $this;
+    }
+
     public function removePicture(Picture $picture): self
     {
         if ($this->pictures->removeElement($picture)) {
@@ -113,6 +135,15 @@ class Dog
             if ($picture->getDog() === $this) {
                 $picture->setDog(null);
             }
+
+            return $this;
+        }
+    }
+
+    public function removeRequest(Request $request): self
+    {
+        if ($this->requests->removeElement($request)) {
+            $request->removeRelation($this);
         }
 
         return $this;
