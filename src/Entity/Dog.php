@@ -30,7 +30,7 @@ class Dog
     #[ORM\OneToMany(mappedBy: 'dog', targetEntity: Picture::class)]
     private $pictures;
 
-    #[ORM\ManyToMany(targetEntity: Request::class, mappedBy: 'relation')]
+    #[ORM\ManyToMany(targetEntity: Request::class, mappedBy: 'dogs')]
     private $requests;
 
     public function __construct()
@@ -122,7 +122,7 @@ class Dog
     {
         if (!$this->requests->contains($request)) {
             $this->requests[] = $request;
-            $request->addRelation($this);
+            $request->addDog($this);
         }
 
         return $this;
@@ -143,7 +143,7 @@ class Dog
     public function removeRequest(Request $request): self
     {
         if ($this->requests->removeElement($request)) {
-            $request->removeRelation($this);
+            $request->removeDog($this);
         }
 
         return $this;

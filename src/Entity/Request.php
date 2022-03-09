@@ -19,12 +19,13 @@ class Request
     private $users;
 
     #[ORM\ManyToMany(targetEntity: Dog::class, inversedBy: 'requests')]
-    private $relation;
+    private $dogs;
 
     public function __construct()
     {
         $this->users = new ArrayCollection();
         $this->relation = new ArrayCollection();
+        $this->dogs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -52,15 +53,15 @@ class Request
     /**
      * @return Collection<int, Dog>
      */
-    public function getRelation(): Collection
+    public function getDogs(): Collection
     {
-        return $this->relation;
+        return $this->dogs;
     }
 
-    public function addRelation(Dog $relation): self
+    public function addDog(Dog $dog): self
     {
-        if (!$this->relation->contains($relation)) {
-            $this->relation[] = $relation;
+        if (!$this->dogs->contains($dog)) {
+            $this->dogs[] = $dog;
         }
 
         return $this;
@@ -73,9 +74,9 @@ class Request
         return $this;
     }
 
-    public function removeRelation(Dog $relation): self
+    public function removeDog(Dog $dog): self
     {
-        $this->relation->removeElement($relation);
+        $this->dogs->removeElement($dog);
 
         return $this;
     }
