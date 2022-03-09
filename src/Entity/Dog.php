@@ -30,12 +30,16 @@ class Dog
     #[ORM\OneToMany(mappedBy: 'dog', targetEntity: Picture::class)]
     private $pictures;
 
+    #[ORM\ManyToMany(targetEntity: Race::class, inversedBy: 'dogs')]
+    private $race;
+
     #[ORM\ManyToMany(targetEntity: Request::class, mappedBy: 'dogs')]
     private $requests;
 
     public function __construct()
     {
         $this->pictures = new ArrayCollection();
+        $this->race = new ArrayCollection();
         $this->requests = new ArrayCollection();
     }
 
@@ -145,6 +149,30 @@ class Dog
         if ($this->requests->removeElement($request)) {
             $request->removeDog($this);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Race>
+     */
+    public function getRace(): Collection
+    {
+        return $this->race;
+    }
+
+    public function addRace(Race $race): self
+    {
+        if (!$this->race->contains($race)) {
+            $this->race[] = $race;
+        }
+
+        return $this;
+    }
+
+    public function removeRace(Race $race): self
+    {
+        $this->race->removeElement($race);
 
         return $this;
     }
