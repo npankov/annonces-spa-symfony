@@ -22,6 +22,10 @@ class Picture
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $link;
 
+    #[ORM\ManyToOne(targetEntity: Dog::class, inversedBy: 'pictures')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $dog;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -59,6 +63,18 @@ class Picture
     public function setLink(?string $link): self
     {
         $this->link = $link;
+
+        return $this;
+    }
+
+    public function getDog(): ?Dog
+    {
+        return $this->dog;
+    }
+
+    public function setDog(?Dog $dog): self
+    {
+        $this->dog = $dog;
 
         return $this;
     }
