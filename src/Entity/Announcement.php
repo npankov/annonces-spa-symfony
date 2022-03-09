@@ -30,14 +30,17 @@ class Announcement
     #[ORM\OneToMany(mappedBy: 'announcement', targetEntity: Message::class)]
     private $messages;
 
+    #[ORM\ManyToOne(targetEntity: Users::class, inversedBy: 'announcements')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $users;
+
+    #[ORM\ManyToOne(targetEntity: Request::class, inversedBy: 'announcements')]
+    private $request;
+
     public function __construct()
     {
         $this->messages = new ArrayCollection();
     }
-
-    #[ORM\ManyToOne(targetEntity: Users::class, inversedBy: 'announcements')]
-    #[ORM\JoinColumn(nullable: false)]
-    private $users;
 
     public function getId(): ?int
     {
@@ -130,6 +133,18 @@ class Announcement
     public function setUsers(?Users $users): self
     {
         $this->users = $users;
+
+        return $this;
+    }
+
+    public function getRequest(): ?Request
+    {
+        return $this->request;
+    }
+
+    public function setRequest(?Request $request): self
+    {
+        $this->request = $request;
 
         return $this;
     }
