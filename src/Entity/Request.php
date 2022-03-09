@@ -21,11 +21,15 @@ class Request
     #[ORM\ManyToMany(targetEntity: Dog::class, inversedBy: 'requests')]
     private $dogs;
 
+    #[ORM\OneToMany(mappedBy: 'request', targetEntity: Announcement::class)]
+    private $announcements;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
         $this->relation = new ArrayCollection();
         $this->dogs = new ArrayCollection();
+        $this->announcements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -77,6 +81,36 @@ class Request
     public function removeDog(Dog $dog): self
     {
         $this->dogs->removeElement($dog);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Announcement>
+     */
+    public function getAnnouncements(): Collection
+    {
+        return $this->announcements;
+    }
+
+    public function addAnnouncement(Announcement $announcement): self
+    {
+        if (!$this->announcements->contains($announcement)) {
+            $this->announcements[] = $announcement;
+            $announcement->setRequest($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnnouncement(Announcement $announcement): self
+    {
+        if ($this->announcements->removeElement($announcement)) {
+            // set the owning side to null (unless already changed)
+            if ($announcement->getRequest() === $this) {
+                $announcement->setRequest(null);
+            }
+        }
 
         return $this;
     }
