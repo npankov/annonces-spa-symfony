@@ -35,6 +35,10 @@ class Announcement
         $this->messages = new ArrayCollection();
     }
 
+    #[ORM\ManyToOne(targetEntity: Users::class, inversedBy: 'announcements')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $users;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -114,6 +118,18 @@ class Announcement
                 $message->setAnnouncement(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUsers(): ?Users
+    {
+        return $this->users;
+    }
+
+    public function setUsers(?Users $users): self
+    {
+        $this->users = $users;
 
         return $this;
     }
