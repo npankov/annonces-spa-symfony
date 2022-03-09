@@ -19,6 +19,10 @@ class Message
     #[ORM\Column(type: 'string', length: 8000, nullable: true)]
     private $text;
 
+    #[ORM\ManyToOne(targetEntity: users::class, inversedBy: 'messages')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $relation;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +48,18 @@ class Message
     public function setText(?string $text): self
     {
         $this->text = $text;
+
+        return $this;
+    }
+
+    public function getRelation(): ?users
+    {
+        return $this->relation;
+    }
+
+    public function setRelation(?users $relation): self
+    {
+        $this->relation = $relation;
 
         return $this;
     }
