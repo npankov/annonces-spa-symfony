@@ -34,11 +34,15 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 255)]
     protected $password;
 
+    #[ORM\ManyToMany(targetEntity: Request::class, mappedBy: 'users')]
+    private $requests;
+
     #[ORM\OneToMany(mappedBy: 'relation', targetEntity: Message::class)]
     private $messages;
 
     public function __construct()
     {
+        $this->requests = new ArrayCollection();
         $this->messages = new ArrayCollection();
     }
 
@@ -110,6 +114,33 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, Request>
+     */
+    public function getRequests(): Collection
+    {
+        return $this->requests;
+    }
+
+    public function addRequest(Request $request): self
+    {
+        if (!$this->requests->contains($request)) {
+            $this->requests[] = $request;
+            $request->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRequest(Request $request): self
+    {
+        if ($this->requests->removeElement($request)) {
+            $request->removeUser($this);
+        }
+
+        return $this;
     }
 
     /**
