@@ -3,12 +3,27 @@
 namespace App\DataFixtures;
 
 use App\Entity\Dog;
-use App\Entity\Race;
+use App\Repository\RaceRepository;
+use App\Repository\RequestRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class DogFixtures extends Fixture
+class DogFixtures extends Fixture implements DependentFixtureInterface
 {
+
+    /**
+     * @var RaceRepository 
+     */
+    protected $raceRepository;
+    protected $requestRepository;
+
+    public function __construct(RaceRepository $raceRepository, RequestRepository $requestRepository)
+    {
+        $this->raceRepository = $raceRepository;
+        $this->requestRepository = $requestRepository;
+    }
+
     public function load(ObjectManager $manager): void
     {
 
@@ -35,6 +50,9 @@ class DogFixtures extends Fixture
             ['Lady', 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.', 'Ces chiennes sont issues de lignées de travail, elles recherchent le contact, sont équilibrées, affectueuses, bien sociabilisées. Elles sont aussi dynamiques et dotées du caractère affirmé du Malinois, avec de très bonnes aptitudes à l’apprentissage (éducation, dressage à un travail, pratique sportive: ring…) Elles ont bénéficié de plusieurs séances d’éducation à la marche en laisse, leur éducation se poursuit tant qu’elles sont à l’élevage.', 0, 1]
         ];
 
+        $race = $this->raceRepository->findAll();
+        $request = $this->announcementRepository->findAll();
+
         foreach ($dogs as list($name, $background, $description, $isTolerant, $isLof)) {
             $dog = new Dog();
             $dog->setName($name);
@@ -43,8 +61,22 @@ class DogFixtures extends Fixture
             $dog->setIsTolerant($isTolerant);
             $dog->setIsLOF($isLof);
 
+            $randomNumber = mt_rand(0, count($race) - 1);
+            $dog->addRace($race[$randomNumber]);
+
+            $randomNumber = mt_rand(0, count($request) - 1);
+            $dog->addRequest($request[$randomNumber]);
+
+
             $manager->persist($dog);
         }
         $manager->flush();
+    }
+
+    public function getDependencies()
+    {
+        return [
+            RaceFixtures::class,
+        ];
     }
 }
