@@ -36,6 +36,9 @@ class Dog
     #[ORM\ManyToMany(targetEntity: Request::class, mappedBy: 'dogs')]
     private $requests;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    private $name;
+
     public function __construct()
     {
         $this->pictures = new ArrayCollection();
@@ -173,6 +176,18 @@ class Dog
     public function removeRace(Race $race): self
     {
         $this->race->removeElement($race);
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }
