@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Dog;
+use App\Entity\Race;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -33,6 +34,51 @@ class DogFixtures extends Fixture
             ['Carra', 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.', 'A réserver superbes chiots bulldog anglais couleurs exotiques. 1 mâle chocolat tricolore et 1 femelle merle silver. Nés le 15/01. Ils seront identifiés par puce électronique, primo vaccinés et un certificat de bonne santé établi par le vétérinaire sera remis au moment de leur départ. Nos petits sont élevés en famille et sont sociabilisés dès le plus jeune âge.', 0, 1],
             ['Lady', 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.', 'Ces chiennes sont issues de lignées de travail, elles recherchent le contact, sont équilibrées, affectueuses, bien sociabilisées. Elles sont aussi dynamiques et dotées du caractère affirmé du Malinois, avec de très bonnes aptitudes à l’apprentissage (éducation, dressage à un travail, pratique sportive: ring…) Elles ont bénéficié de plusieurs séances d’éducation à la marche en laisse, leur éducation se poursuit tant qu’elles sont à l’élevage.', 0, 1]
         ];
+        $breeds = [
+            "Affenpinscher",
+            "Airedale Terrier",
+            "Akita Américain",
+            "Akita Inu",
+            "American Staffordshire Terrier",
+            "Ancien chien d'arrêt danois",
+            "Anglo-Français de Petite Vènerie",
+            "Ariégeois",
+            "Barbet",
+            "Barbu Tchèque",
+            "Barzoï",
+            "Basenji",
+            "Basset Artésien-Normand",
+            "Basset Bleu de Gascogne",
+            "Basset de Westphalie",
+            "Basset des Alpes",
+            "Basset Fauve de Bretagne",
+            "Basset Hound",
+            "Beagle",
+            "Beagle-Harrier",
+            "Bearded Collie",
+            "Beauceron",
+            "Bedlington Terrier",
+            "Berger Allemand",
+            "Berger Australien",
+            "Berger Belge Groenendael",
+            "Berger Belge Laekenois",
+            "Berger Belge Malinois",
+            "Berger Belge Tervueren",
+            "Berger Blanc Suisse",
+            "Berger Catalan",
+            "Berger d'Anatolie",
+            "Berger d'Asie Centrale",
+            "Berger de Bergame",
+            "Berger de Bohême",
+            "Berger de Brie"
+        ];
+
+        foreach ($breeds as $breed) {
+            $b = new Race();
+            $b->setName($breed);
+
+            $manager->persist($b);
+        }
 
         foreach ($dogs as list($name, $background, $description, $isTolerant, $isLof)) {
             $dog = new Dog();
