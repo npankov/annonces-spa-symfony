@@ -36,10 +36,10 @@ class AnnouncementFixtures extends Fixture
 
         foreach ($announcements as list($title, $infos, $link, $date)) {
             $announcements = new Announcement();
-            $$announcements->setTitle($title);
-            $$announcements->setInfos($infos);
-            $$announcements->setLink($link);
-            $$announcements->setDateAnnouncement(new DateTime($date));
+            $announcements->setTitle($title);
+            $announcements->setInfos($infos);
+            $announcements->setLink($link);
+            $announcements->setDateAnnouncement(new DateTime($date));
 
             $manager->persist($announcements);
         }
