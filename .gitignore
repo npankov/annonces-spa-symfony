@@ -18,6 +18,7 @@
 /phpunit.xml
 .phpunit.result.cache
 ###< phpunit/phpunit ###
+.idea
 /.idea/.gitignore
 /.idea/modules.xml
 /.idea/php.xml
