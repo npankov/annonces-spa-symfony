@@ -13,11 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
 #[ORM\InheritanceType("JOINED")]
 #[ORM\DiscriminatorColumn(name: "discr", type: "string")]
-#[ORM\DiscriminatorMap([
-    "admin" => "Admin",
-    "adopter" => "Adopter",
-    "breeder" => "Breeder",
-])]
+#[ORM\DiscriminatorMap(["admin" => "Admin", "adopter" => "Adopter", "breeder" => "Breeder",])]
 class Users implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -164,7 +160,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-    
+
     /**
      * @return Collection<int, Announcement>
      */
@@ -194,7 +190,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-    
+
     public function removeAnnouncement(Announcement $announcement): self
     {
         if ($this->announcements->removeElement($announcement)) {
