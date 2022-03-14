@@ -5,22 +5,23 @@ namespace App\DataFixtures;
 use App\Entity\Dog;
 use App\Repository\RaceRepository;
 use App\Repository\RequestRepository;
-use App\Repository\AnnouncementRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 class DogFixtures extends Fixture implements DependentFixtureInterface
 {
-    protected RaceRepository $raceRepository;
-    protected RequestRepository $requestRepository;
-    protected AnnouncementRepository $announcementRepository;
 
-    public function __construct(RaceRepository $raceRepository, RequestRepository $requestRepository, Announcementrepository $announcementRepository)
+    /**
+     * @var RaceRepository 
+     */
+    protected $raceRepository;
+    protected $requestRepository;
+
+    public function __construct(RaceRepository $raceRepository, RequestRepository $requestRepository)
     {
         $this->raceRepository = $raceRepository;
         $this->requestRepository = $requestRepository;
-        $this->announcementRepository = $announcementRepository;
     }
 
     public function load(ObjectManager $manager): void
@@ -50,8 +51,7 @@ class DogFixtures extends Fixture implements DependentFixtureInterface
         ];
 
         $race = $this->raceRepository->findAll();
-        $request = $this->requestRepository->findAll();
-        $announcement = $this->announcementRepository->findAll();
+        $request = $this->announcementRepository->findAll();
 
         foreach ($dogs as list($name, $background, $description, $isTolerant, $isLof)) {
             $dog = new Dog();
@@ -67,8 +67,6 @@ class DogFixtures extends Fixture implements DependentFixtureInterface
             $randomNumber = mt_rand(0, count($request) - 1);
             $dog->addRequest($request[$randomNumber]);
 
-            $randomNumber = mt_rand(0, count($announcement) - 1);
-            $dog->setAnnouncement($announcement[$randomNumber]);
 
             $manager->persist($dog);
         }

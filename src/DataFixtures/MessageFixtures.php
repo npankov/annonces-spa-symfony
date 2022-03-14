@@ -4,25 +4,11 @@ namespace App\DataFixtures;
 
 use App\Entity\Message;
 use DateTime;
-use App\Repository\AnnouncementRepository;
-use App\Repository\UsersRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
 class MessageFixtures extends Fixture
 {
-    /**
-     * @var AnnouncementRepository
-     * @var UsersRepository  
-     */
-    protected $announcementRepository;
-    protected $usersRepository;
-
-    public function __construct(AnnouncementRepository $announcementRepository, UsersRepository $usersRepository)
-    {
-        $this->announcementRepository = $announcementRepository;
-        $this->usersRepository = $usersRepository;
-    }
     public function load(ObjectManager $manager): void
     {
 
@@ -49,21 +35,12 @@ class MessageFixtures extends Fixture
 
         ];
 
-        $announcement = $this->announcementRepository->findAll();
-        $users = $this->usersRepository->findAll();
-
         foreach ($messages as list($dateMessage, $text)) {
-            $messages = new Message();
-            $messages->setDateMessage(new DateTime($dateMessage));
-            $messages->setText($text);
+            $Messages = new Message();
+            $Messages->setDateMessage(new DateTime($dateMessage));
+            $Messages->setText($text);
 
-            $randomNumber = mt_rand(0, count($announcement) - 1);
-            $messages->setAnnouncement($announcement[$randomNumber]);
-
-            $randomNumber = mt_rand(0, count($users) - 1);
-            $messages->setUser($users[$randomNumber]);
-
-            $manager->persist($messages);
+            $manager->persist($Messages);  
         }
         $manager->flush();
     }

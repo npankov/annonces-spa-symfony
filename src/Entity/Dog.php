@@ -39,10 +39,6 @@ class Dog
     #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
-    #[ORM\OneToOne(targetEntity: announcement::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private $announcement;
-
     public function __construct()
     {
         $this->pictures = new ArrayCollection();
@@ -192,18 +188,6 @@ class Dog
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getAnnouncement(): ?announcement
-    {
-        return $this->announcement;
-    }
-
-    public function setAnnouncement(announcement $announcement): self
-    {
-        $this->announcement = $announcement;
 
         return $this;
     }
