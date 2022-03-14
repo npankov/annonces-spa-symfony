@@ -2,19 +2,60 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Announcement;
 use App\Entity\Dog;
+<<<<<<< HEAD
+use App\Repository\RaceRepository;
+use App\Repository\RequestRepository;
+<<<<<<< HEAD
+use App\Repository\AnnouncementRepository;
+=======
+=======
+<<<<<<< HEAD
+use App\Entity\Race;
+=======
 use App\Repository\RaceRepository;
 use App\Repository\RequestRepository;
 use App\Repository\AnnouncementRepository;
+>>>>>>> b796976 (injection-29)
+>>>>>>> 5e779cd (injection-29)
+>>>>>>> 7a2d5f7 (injection-29)
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 class DogFixtures extends Fixture implements DependentFixtureInterface
 {
+<<<<<<< HEAD
     protected RaceRepository $raceRepository;
     protected RequestRepository $requestRepository;
     protected AnnouncementRepository $announcementRepository;
+
+    public function __construct(RaceRepository $raceRepository, RequestRepository $requestRepository, Announcementrepository $announcementRepository)
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> 5e779cd (injection-29)
+
+    /**
+     * @var RaceRepository 
+     */
+    protected $raceRepository;
+    protected $requestRepository;
+<<<<<<< HEAD
+
+    public function __construct(RaceRepository $raceRepository, RequestRepository $requestRepository)
+>>>>>>> 7a2d5f7 (injection-29)
+    {
+        $this->raceRepository = $raceRepository;
+        $this->requestRepository = $requestRepository;
+        $this->announcementRepository = $announcementRepository;
+    }
+
+=======
+    protected $announcementRepository;
 
     public function __construct(RaceRepository $raceRepository, RequestRepository $requestRepository, Announcementrepository $announcementRepository)
     {
@@ -23,6 +64,8 @@ class DogFixtures extends Fixture implements DependentFixtureInterface
         $this->announcementRepository = $announcementRepository;
     }
 
+>>>>>>> b796976 (injection-29)
+>>>>>>> 5e779cd (injection-29)
     public function load(ObjectManager $manager): void
     {
 
@@ -49,10 +92,20 @@ class DogFixtures extends Fixture implements DependentFixtureInterface
             ['Lady', 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.', 'Ces chiennes sont issues de lignées de travail, elles recherchent le contact, sont équilibrées, affectueuses, bien sociabilisées. Elles sont aussi dynamiques et dotées du caractère affirmé du Malinois, avec de très bonnes aptitudes à l’apprentissage (éducation, dressage à un travail, pratique sportive: ring…) Elles ont bénéficié de plusieurs séances d’éducation à la marche en laisse, leur éducation se poursuit tant qu’elles sont à l’élevage.', 0, 1]
         ];
 
+<<<<<<< HEAD
         $race = $this->raceRepository->findAll();
         $request = $this->requestRepository->findAll();
         $announcement = $this->announcementRepository->findAll();
 
+=======
+<<<<<<< HEAD
+=======
+        $race = $this->raceRepository->findAll();
+        $request = $this->requestRepository->findAll();
+        $announcement = $this->announcementRepository->findAll();
+
+>>>>>>> b796976 (injection-29)
+>>>>>>> 5e779cd (injection-29)
         foreach ($dogs as list($name, $background, $description, $isTolerant, $isLof)) {
             $dog = new Dog();
             $dog->setName($name);
@@ -61,15 +114,31 @@ class DogFixtures extends Fixture implements DependentFixtureInterface
             $dog->setIsTolerant($isTolerant);
             $dog->setIsLOF($isLof);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> 5e779cd (injection-29)
             $randomNumber = mt_rand(0, count($race) - 1);
             $dog->addRace($race[$randomNumber]);
 
             $randomNumber = mt_rand(0, count($request) - 1);
             $dog->addRequest($request[$randomNumber]);
 
+<<<<<<< HEAD
+            $randomNumber = mt_rand(0, count($announcement) - 1);
+            $dog->setAnnouncement($announcement[$randomNumber]);
+=======
+<<<<<<< HEAD
+
+=======
             $randomNumber = mt_rand(0, count($announcement) - 1);
             $dog->setAnnouncement($announcement[$randomNumber]);
 
+>>>>>>> 7a2d5f7 (injection-29)
+
+>>>>>>> b796976 (injection-29)
+>>>>>>> 5e779cd (injection-29)
             $manager->persist($dog);
         }
         $manager->flush();
