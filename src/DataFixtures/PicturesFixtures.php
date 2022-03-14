@@ -6,7 +6,7 @@ use App\Entity\Picture;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
-class PictureFixtures extends Fixture
+class PicturesFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
