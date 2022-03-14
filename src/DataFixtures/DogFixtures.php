@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Dog;
+use App\Repository\PictureRepository;
 use App\Repository\RaceRepository;
 use App\Repository\RequestRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -15,13 +16,15 @@ class DogFixtures extends Fixture implements DependentFixtureInterface
     /**
      * @var RaceRepository 
      */
-    protected $raceRepository;
+    protected RaceRepository $raceRepository;
+    protected PictureRepository $pictureRepository;
     protected RequestRepository $requestRepository;
 
-    public function __construct(RaceRepository $raceRepository, RequestRepository $requestRepository)
+    public function __construct(RaceRepository $raceRepository, PictureRepository $pictureRepository,RequestRepository $requestRepository)
     {
         $this->raceRepository = $raceRepository;
         $this->requestRepository = $requestRepository;
+        $this->pictureRepository = $pictureRepository;
     }
 
     public function load(ObjectManager $manager): void
@@ -73,10 +76,11 @@ class DogFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             RaceFixtures::class,
+            PicturesFixtures::class
         ];
     }
 }
