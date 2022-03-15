@@ -14,7 +14,7 @@
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
-            <a href="{{ relative_path('/') }}" class="navbar-brand">
+            <a href="{{ path('app_default') }}" class="navbar-brand">
                 <!-- Logo Image -->
                 <img src="{{ asset('/assets/logo.png') }}" width="50" alt="" class="d-inline-block align-middle mr-2">
                 <!-- Logo Text -->
@@ -27,12 +27,12 @@
             <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ relative_path('announcement') }}">Annonces</a>
+                        <a class="nav-link" href="{{ path('app_announcement') }}">Annonces</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{ relative_path('signup') }}">
+                        <a class="nav-link active" href="{{ path('app_signup') }}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
                                 <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
                             </svg>
