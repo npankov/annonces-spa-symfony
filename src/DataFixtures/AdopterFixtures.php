@@ -57,7 +57,7 @@ class AdopterFixtures extends Fixture
                 $this->hasher->hashPassword($adopter, $password)
             );
 
-            $manager->persist($adopters);
+            $manager->persist($adopter);
         }
         $manager->flush();
     }

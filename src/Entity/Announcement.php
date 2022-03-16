@@ -18,7 +18,7 @@ class Announcement
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
     private $title;
 
-    #[ORM\Column(type: 'string', length: 50, nullable: true)]
+    #[ORM\Column(type: 'text', nullable: true)]
     private $infos;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -37,9 +37,13 @@ class Announcement
     #[ORM\ManyToOne(targetEntity: Request::class, inversedBy: 'announcements')]
     private $request;
 
+    #[ORM\OneToMany(targetEntity: Dog::class, mappedBy: 'announcement')]
+    private $dogs;
+
     public function __construct()
     {
         $this->messages = new ArrayCollection();
+        $this->dogs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -145,6 +149,36 @@ class Announcement
     public function setRequest(?Request $request): self
     {
         $this->request = $request;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Dog>
+     */
+    public function getDogs(): Collection
+    {
+        return $this->dogs;
+    }
+
+    public function addDog(Dog $dog): self
+    {
+        if (!$this->dogs->contains($dog)) {
+            $this->dogs[] = $dog;
+            $dog->setAnnouncement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDog(Dog $dog): self
+    {
+        if ($this->dogs->removeElement($dog)) {
+            // set the owning side to null (unless already changed)
+            if ($dog->getAnnouncement() === $this) {
+                $dog->setAnnouncement(null);
+            }
+        }
 
         return $this;
     }
