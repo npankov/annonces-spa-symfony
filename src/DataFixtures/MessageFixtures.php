@@ -3,26 +3,28 @@
 namespace App\DataFixtures;
 
 use App\Entity\Message;
+use App\Repository\AdopterRepository;
 use DateTime;
 use App\Repository\AnnouncementRepository;
 use App\Repository\UsersRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class MessageFixtures extends Fixture
+class MessageFixtures extends Fixture implements DependentFixtureInterface
 {
     /**
      * @var AnnouncementRepository
-     * @var UsersRepository  
      */
     protected $announcementRepository;
     protected $usersRepository;
 
-    public function __construct(AnnouncementRepository $announcementRepository, UsersRepository $usersRepository)
+    public function __construct(AnnouncementRepository $announcementRepository, AdopterRepository $usersRepository)
     {
         $this->announcementRepository = $announcementRepository;
         $this->usersRepository = $usersRepository;
     }
+
     public function load(ObjectManager $manager): void
     {
 
@@ -53,18 +55,26 @@ class MessageFixtures extends Fixture
         $users = $this->usersRepository->findAll();
 
         foreach ($messages as list($dateMessage, $text)) {
-            $messages = new Message();
-            $messages->setDateMessage(new DateTime($dateMessage));
-            $messages->setText($text);
+            $message = new Message();
+            $message->setDateMessage(new DateTime($dateMessage));
+            $message->setText($text);
 
             $randomNumber = mt_rand(0, count($announcement) - 1);
-            $messages->setAnnouncement($announcement[$randomNumber]);
+            $message->setAnnouncement($announcement[$randomNumber]);
 
             $randomNumber = mt_rand(0, count($users) - 1);
-            $messages->setUser($users[$randomNumber]);
+            $message->setUser($users[$randomNumber]);
 
-            $manager->persist($messages);
+            $manager->persist($message);
         }
         $manager->flush();
+    }
+
+    public function getDependencies(): array
+    {
+        return [
+            AdopterFixtures::class,
+            AnnouncementFixtures::class,
+        ];
     }
 }

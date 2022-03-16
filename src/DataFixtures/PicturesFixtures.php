@@ -3,11 +3,17 @@
 namespace App\DataFixtures;
 
 use App\Entity\Picture;
+use App\Repository\DogRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class PicturesFixtures extends Fixture
+class PicturesFixtures extends Fixture implements DependentFixtureInterface
 {
+    public function __construct(private DogRepository $dogRepository)
+    {
+    }
+
     public function load(ObjectManager $manager): void
     {
 
@@ -41,19 +47,28 @@ class PicturesFixtures extends Fixture
             ['chien adorable', 'description', 'https://www.pexels.com/fr-fr/photo/chien-couche-sur-le-rivage-pendant-la-journee-2252311/'],
             ['chien joueur', 'description', 'https://www.pexels.com/fr-fr/photo/chien-qui-court-a-la-plage-2906033/'],
             ['chien blagueur', 'description', 'https://www.pexels.com/fr-fr/photo/homme-debout-tout-en-tenant-chiot-1849974/'],
-
-
-
         ];
 
-        foreach ($pictures as list($title, $description, $link)) {
-            $pictures = new Picture();
-            $pictures->setTitle($title);
-            $pictures->setDescription($description);
-            $pictures->setLink($link);
+        $dogs = $this->dogRepository->findAll();
 
-            $manager->persist($pictures);
+        foreach ($pictures as list($title, $description, $link)) {
+            $picture = new Picture();
+            $picture->setTitle($title);
+            $picture->setDescription($description);
+            $picture->setLink($link);
+
+            $nb = mt_rand(0, count($dogs) - 1);
+            $picture->setDog($dogs[$nb]);
+
+            $manager->persist($picture);
         }
         $manager->flush();
+    }
+
+    public function getDependencies(): array
+    {
+        return [
+            DogFixtures::class,
+        ];
     }
 }

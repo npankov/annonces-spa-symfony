@@ -39,7 +39,7 @@ class Dog
     #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
-    #[ORM\OneToOne(targetEntity: announcement::class, cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(targetEntity: Announcement::class, inversedBy: 'dogs', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private $announcement;
 
@@ -196,12 +196,12 @@ class Dog
         return $this;
     }
 
-    public function getAnnouncement(): ?announcement
+    public function getAnnouncement(): ?Announcement
     {
         return $this->announcement;
     }
 
-    public function setAnnouncement(announcement $announcement): self
+    public function setAnnouncement(?Announcement $announcement): self
     {
         $this->announcement = $announcement;
 
