@@ -5,9 +5,14 @@ namespace App\DataFixtures;
 use App\Entity\Admin;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AdminFixtures extends Fixture
 {
+    public function __construct(private UserPasswordHasherInterface $hasher)
+    {
+    }
+
     public function load(ObjectManager $manager): void
     {
 
@@ -19,7 +24,9 @@ class AdminFixtures extends Fixture
         foreach ($users as list($mail, $password)) {
             $user = new Admin();
             $user->setEmail($mail);
-            $user->setPassword($password);
+            $user->setPassword(
+                $this->hasher->hashPassword($user, $password)
+            );
 
             $manager->persist($user);
         }
