@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[IsGranted('ROLE_ADMIN')]
 class AdminDashboardController extends AbstractController
 {
-    #[Route('/admin/dashboard', name: 'app_admin_dashboard')]
+    #[Route('/admin', name: 'app_admin_dashboard')]
     public function index(): Response
     {
         return $this->render('admin_dashboard/index.html.twig', [
