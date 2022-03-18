@@ -39,6 +39,8 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'users', targetEntity: Announcement::class)]
     private Collection $announcements;
 
+    protected ?string $plainPassword = null;
+
     public function __construct()
     {
         $this->requests = new ArrayCollection();
@@ -113,7 +115,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        $this->plainPassword = null;
     }
 
     /**
@@ -199,6 +201,18 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
                 $announcement->setUsers(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(?string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
 
         return $this;
     }
