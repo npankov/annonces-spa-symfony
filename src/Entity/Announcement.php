@@ -182,4 +182,14 @@ class Announcement
 
         return $this;
     }
+
+    public function getFirstPicture(): ?Picture
+    {
+        foreach ($this->getDogs() as $dog) {
+            foreach ($dog->getPictures() as $picture) {
+                return $picture;
+            }
+        }
+        return null;
+    }
 }

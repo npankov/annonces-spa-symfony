@@ -8,6 +8,7 @@ use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
+
 /**
  * @method Announcement|null find($id, $lockMode = null, $lockVersion = null)
  * @method Announcement|null findOneBy(array $criteria, array $orderBy = null)
@@ -44,6 +45,8 @@ class AnnouncementRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
+
+
 
     // /**
     //  * @return Announcement[] Returns an array of Announcement objects

@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Repository\AnnouncementRepository;
+use App\Repository\BreederRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -9,10 +11,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class DefaultController extends AbstractController
 {
     #[Route('/', name: 'app_default')]
-    public function index(): Response
+    public function home(AnnouncementRepository $announcementRepository, BreederRepository $breederRepository): Response
     {
-        return $this->render('default/index.html.twig', [
-            'controller_name' => 'DefaultController',
+        $announcement = $announcementRepository->findAll();
+        $breeders = $breederRepository->findAll();
+        return $this->render('default/home.html.twig', [
+            'announcements' => $announcement,
+            'breeders' => $breeders,
         ]);
     }
 }
