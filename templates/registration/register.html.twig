@@ -8,9 +8,17 @@
         <div class="card-body">
             <h4 class="text-center mt-4 mb-4" style="text-transform: uppercase;">Inscription</h4>
                 {{ form_start(registrationForm) }}
-                    {{ form_row(registrationForm.email) }}
+                    {{ form_row(registrationForm.email, {
+                        label: 'Email Adress',
+                        attr: {
+                            placeholder: 'Entrer votre email',
+                        }
+                    }) }}
                     {{ form_row(registrationForm.plainPassword, {
-                        label: 'Password',
+                        label: 'Mot de passe',
+                        attr: {
+                            placeholder: 'Entrer votre mot de passe',
+                        }
                     }) }}
                     {{ form_row(registrationForm.agreeTerms) }}
                     <div class="mt-2 mb-3 d-flex justify-content-between align-items-center">
