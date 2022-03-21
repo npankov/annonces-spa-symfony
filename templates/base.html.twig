@@ -41,25 +41,31 @@
 						<li class="nav-item">
 							{% if app.user %}
 								<a class="nav-link active" href="{{ path('app_account') }}">
-								{% else %}
-									<a class="nav-link active" href="{{ path('app_login') }}">
-									{% endif %}
-									<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-fill" viewbox="0 0 16 16">
-										<path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-									</svg>
-								</a>
-							</li>
-							{% if app.user %}
-								<li class="nav-item d-flex align-items-center">
-									<a href="{{ path('app_logout') }}">{{ app.user.email }}
-										(Déconnexion)</a>
-								</li>
+							{% else %}
+								<a class="nav-link active" href="{{ path('app_login') }}">
 							{% endif %}
+								<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-fill" viewbox="0 0 16 16">
+									<path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+								</svg>
+							</a>
 						</li>
+						{% if app.user %}
+							<li class="nav-item d-flex align-items-center">
+								<a href="{{ path('app_logout') }}">{{ app.user.email }}
+									(Déconnexion)</a>
+							</li>
+						{% endif %}
 					</ul>
 				</div>
 			</nav>
 		</div>
+		{% for type, flashes in app.flashes %}
+			{% for flash in flashes %}
+				<div class="alert alert-{{ type }}" role="alert">
+					{{ flash }}
+				</div>
+			{% endfor %}
+		{% endfor %}
 		{% block body %}{% endblock %}
 
 		{% block javascripts %}
