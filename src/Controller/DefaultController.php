@@ -13,7 +13,7 @@ class DefaultController extends AbstractController
     #[Route('/', name: 'app_default')]
     public function home(AnnouncementRepository $announcementRepository, BreederRepository $breederRepository): Response
     {
-        $announcement = $announcementRepository->findAll();
+        $announcement = $announcementRepository->findby([], ['dateAnnouncement' => 'DESC'], 5);
         $breeders = $breederRepository->findAll();
         return $this->render('default/home.html.twig', [
             'announcements' => $announcement,
