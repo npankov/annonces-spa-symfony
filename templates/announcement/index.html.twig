@@ -1,20 +1,119 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Annonces{% endblock %}
+{#  
+{% block title %} Annonces
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{{dump()}}
 
-<div class="example-wrapper">
-    <h1>Page Annonces! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/Users/robot/PhpstormProjects/annonces-spa-symfony/src/Controller/AnnouncementController.php'|file_link(0) }}">src/Controller/AnnouncementController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/Users/robot/PhpstormProjects/annonces-spa-symfony/templates/announcement/index.html.twig'|file_link(0) }}">templates/announcement/index.html.twig</a></code></li>
-    </ul>
+<h1 class="mt-5 mb-5 d-flex justify-content-center">Annoucement</h1>
+<div class="container">
+<div class="row">
+{% for announcement in announcements %}
+    <div class="col-4">
+    <div class="card mb-3" style="max-width: 540px; ">
+    <div class="row g-0">
+        <div class="col-4">
+            {% for dog in announcement.dogs %}
+                {% for picture in dog.pictures %}
+                    <img src="{{ picture.link }}" class="img-fluid rounded-start" alt="...">
+                    {% endfor %}
+                    {% endfor %}
+        </div>
+        
+        <div class="col-md-8">
+        <div class="card-body">
+            <h5 class="card-title">{{announcement.title}}</h5>
+            <p class="card-text">{{ announcement.infos }}</p>
+            <p class="card-text"><small class="text-muted">{{announcement.dateAnnouncement|date("d/m/Y") }}</small> {{announcement.users}}</p>
+            
+            {% for dog in announcement.dogs %}               
+            <p class="card-text"><small class="text-muted">{{dog.name}}: {% if dog.isLof %} est LOF {% endif %} </small></p>
+            <p class="card-text"><small class="text-muted">{% if dog.istolerant %} il tolère les autres chiens {% endif %} </small></p>
+                {% for race in dog.race %}
+                    {{ race.name }}
+                {% endfor %}
+            {% endfor %}
+    
+        </div>
+        </div>
+    </div>
+    </div>
+    </div>
+{% endfor %}
 </div>
+</div>
+{% endblock %}#}
+
+{% block body %}
+<div class="container d-flex flex-wrap justify-content-between">
+		{% for announcement in announcements %}
+			<div class="card overflow-auto m-3" style="max-width: 18rem; max-height: 500px;">
+				{% if announcement.getFirstPicture() %}
+					<img class="img-fluid img-thumbnail" style="height: 200px;" src=" {{ announcement.getFirstPicture().link }} " class=" card-img-top" alt=" ...">
+				{% else %}
+					<img class="img-fluid img-thumbnail" style="height: 200px;" src="..." class=" card-img-top" alt=" ...">
+				{% endif %}
+				<div class="card-body">
+					<h5 class="card-title">{{ announcement.title }}</h5>
+					<div class="card-text overflow-auto mb-1" style="max-height: 150px">{{ announcement.infos }}{% for dog in announcement.dogs %}               
+            {{dog.name}}: {% if dog.isLof %} est LOF {% endif %}{% endfor %} </div>        
+					<!-- Boutton modal race -->
+					<button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#race{{announcement.id}}">
+						Fiche
+					</button>
+					<!-- Modal Race -->
+					<div class="modal fade" id="race{{announcement.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="race{{announcement.id}}">{{ announcement.title }}</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									{% for dog in announcement.dogs %}
+										{% for race in dog.race %}
+											<p class="card-text">Ces chiens sont des {{ race.name }}</p>
+                                            <p class="card-text">{% if dog.isLof %}{{dog.name}} est LOF {% endif %} </p>
+                                            <p class="card-text">{% if dog.istolerant %}{{dog.name}} tolère aussi les autres chiens ! {% endif %}</p>
+                                            
+										{% endfor %}
+									{% endfor %}
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fermer</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Bouton modal message -->
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#annonce{{announcement.id}}">
+						Background
+					</button>
+					<!-- Modal Message -->
+					<div class="modal fade" id="annonce{{announcement.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="annonce{{announcement.id}}">{{ announcement.title }}</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+                                
+									{% for dog in announcement.dogs %} 
+										<p>{{ dog.background }}</p>
+									{% endfor %}
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fermer</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<small class="card-footer text-muted">{{ announcement.dateAnnouncement|date("d/m/Y") }}</small>
+			</div>
+		{% endfor %}
+	</div>
 {% endblock %}

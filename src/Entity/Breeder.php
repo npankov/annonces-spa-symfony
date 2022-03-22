@@ -35,8 +35,9 @@ class Breeder extends Users
         return array_unique($roles);
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getName();
     }
 }
+
