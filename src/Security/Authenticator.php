@@ -54,7 +54,7 @@ class Authenticator extends AbstractLoginFormAuthenticator
         }
 
         if (in_array('ROLE_ADOPTER', $token->getRoleNames())) {
-            return new RedirectResponse($this->urlGenerator->generate('app_announcement'));
+            return new RedirectResponse($this->urlGenerator->generate('app_account'));
         }
 
         if (in_array('ROLE_BREEDER', $token->getRoleNames())) {

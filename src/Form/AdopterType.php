@@ -53,7 +53,10 @@ class AdopterType extends AbstractType
                     'required' => true, // On passe une option, pour préciser que ce champ est requis (ne doit pas être vide)
                 ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Valider'
+                'label' => 'Valider',
+                'attr' => [
+                   'class' => 'btn btn-danger mt-3 mt-sm-0'
+                ]
             ])
         ;
     }

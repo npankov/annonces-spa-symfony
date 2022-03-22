@@ -3,5 +3,13 @@
 {% block title %}Mon compte{% endblock %}
 
 {% block body %}
-{{ form(form) }}
+<div class="example-wrapper">
+    <div class="card signup_v4 mb-30 bg-light">
+        <div class="card-body">
+            <h4 class="text-center mt-4 mb-4" style="text-transform: uppercase;">Mon Compte</h4>
+                {{ form(form) }}
+        </div>
+    </div>
+</div>
+
 {% endblock %}
