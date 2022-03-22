@@ -2,28 +2,47 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\PictureRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PictureRepository::class)]
+#[ApiResources(
+    collection: [
+        'get' => [
+            'normalization_context' => ['groups' => ['read:Picture:collection']],
+        ],
+    ],
+    itemOperations: [
+        'get' => [
+            'normalization_context' => ['groups' => ['read:Picture:item']],
+        ],
+    ],
+)]
 class Picture
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['read:Race:item', 'read:Dog:item', 'read:Picture:collection', 'read:Picture:item'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
+    #[Groups(['read:Race:item', 'read:Dog:item', 'read:Picture:collection', 'read:Picture:item'])]
     private $title;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['read:Race:item', 'read:Dog:item', 'read:Picture:collection', 'read:Picture:item'])]
     private $description;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['read:Race:item', 'read:Dog:item', 'read:Picture:collection', 'read:Picture:item'])]
     private $link;
 
     #[ORM\ManyToOne(targetEntity: Dog::class, inversedBy: 'pictures')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read:Picture:collection', 'read:Picture:item'])]
     private $dog;
 
     public function getId(): ?int

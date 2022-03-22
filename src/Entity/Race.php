@@ -2,23 +2,40 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\RaceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: RaceRepository::class)]
+#[ApiResource(
+    collectionOperations: [
+        'get' => [
+            'normalization_context' => ['groups' => ['read:Race:collection']],
+        ],
+    ],
+    itemOperations: [
+        'get' => [
+            'normalization_context' => ['groups' => ['read:Race:item']],
+        ],
+    ],
+)]
 class Race
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['read:Race:collection', 'read:Race:item', 'read:Dog:item'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
+    #[Groups(['read:Race:collection', 'read:Race:item', 'read:Dog:item'])]
     private $name;
 
     #[ORM\ManyToMany(targetEntity: Dog::class, mappedBy: 'race')]
+    #[Groups(['read:Race:item'])]
     private $dogs;
 
     public function __construct()
