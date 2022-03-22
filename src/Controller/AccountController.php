@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AccountController extends AbstractController
@@ -21,7 +22,8 @@ class AccountController extends AbstractController
      */
     #[Route('/account', name: 'app_account')]
     #[IsGranted('ROLE_ADOPTER')]
-    public function index(Request $request, AdopterRepository $adopterRepository): Response
+    public function index(Request $request, AdopterRepository $adopterRepository, UserPasswordHasherInterface
+    $userPasswordHasher): Response
     {
         /** @var Adopter $adopter */
         $adopter = $this->getUser();
@@ -32,6 +34,14 @@ class AccountController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if (!empty($adopter->getPlainPassword())) {
+                $adopter->setPassword(
+                    $userPasswordHasher->hashPassword(
+                        $adopter,
+                        $adopter->getPlainPassword()
+                    )
+                );
+            }
             $adopterRepository->add($adopter);
             $this->addFlash('success', 'Donnée insérée');
             return $this->redirectToRoute('app_account');
