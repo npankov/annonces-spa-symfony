@@ -21,7 +21,7 @@ class AdopterCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
+            IdField::new('id')->hideOnForm(),
             EmailField::new('email'),
             TextField::new('plainPassword')->onlyOnForms(),
             TextField::new('town'),

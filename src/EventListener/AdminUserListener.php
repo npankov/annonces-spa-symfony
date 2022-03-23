@@ -37,7 +37,7 @@ class AdminUserListener implements EventSubscriberInterface
     {
         $entity = $event->getEntityInstance();
 
-        if (!($entity instanceof Users || empty($entity->getPlainPassword()))) {
+        if (!$entity instanceof Users || empty($entity->getPlainPassword())) {
             return;
         }
 
