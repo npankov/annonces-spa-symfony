@@ -16,6 +16,9 @@ class MyAnnounceController extends AbstractController
     {
         $announcements = $announcementRepository->findBy([
             'users' => $this->getUser(),
+        ], [
+            'dateAnnouncement' => 'DESC'
+
         ]);
         return $this->render('my_announce/index.html.twig', [
             'announcements' => $announcements,
