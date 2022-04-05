@@ -8,23 +8,40 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AnnouncementRepository::class)]
+#[ApiResource(
+    collectionOperations: [
+        'get' => [
+            'normalization' => ['groups' => ['read:Announcement:collection']],
+        ],
+    ],
+    itemOperations: [
+        'get' => [
+            'normalization_context' => ['groups' => ['read:Announcement:item']],
+        ],
+    ],
+)]
 class Announcement
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['read:Announcement:item', 'read:Announcement:coll', 'read:Dog:item'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
+    #[Groups(['read:Announcement:item', 'read:Announcement:coll', 'read:Dog:item'])]
     private $title;
 
     #[ORM\Column(type: 'text', nullable: true)]
+    #[Groups(['read:Announcement:item', 'read:Announcement:coll', 'read:Dog:item'])]
     private $infos;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['read:Announcement:item', 'read:Announcement:coll', 'read:Dog:item'])]
     private $link;
 
     #[ORM\Column(type: 'date', nullable: true)]
+    #[Groups(['read:Announcement:item', 'read:Announcement:coll', 'read:Dog:item'])]
     private $dateAnnouncement;
 
     #[ORM\OneToMany(mappedBy: 'announcement', targetEntity: Message::class)]
@@ -38,6 +55,7 @@ class Announcement
     private $request;
 
     #[ORM\OneToMany(targetEntity: Dog::class, mappedBy: 'announcement')]
+    #[Groups(['read:Announcement:item'])]
     private $dogs;
 
     public function __construct()

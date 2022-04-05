@@ -2,45 +2,68 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\DogRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: DogRepository::class)]
+#[ApiResource(
+    collectionOperations: [
+        'get' => [
+            'normalization_context' => ['groups' => ['read:Dog:collection']],
+        ],
+    ],
+    itemOperations: [
+        'get' => [
+            'normalization' => ['groups' => ['read:Dog:item']],
+        ],
+    ],
+)]
 class Dog
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['read:Race:item', 'read:Announcement:item', 'read:Dog:item', 'read:Dog:collection'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 500, nullable: true)]
+    #[Groups(['read:Race:item', 'read:Announcement:item', 'read:Dog:item', 'read:Dog:collection'])]
     private $background;
 
     #[ORM\Column(type: 'string', length: 1500, nullable: true)]
+    #[Groups(['read:Race:item', 'read:Announcement:item', 'read:Dog:item', 'read:Dog:collection'])]
     private $description;
 
     #[ORM\Column(type: 'boolean', nullable: true)]
+    #[Groups(['read:Race:item', 'read:Announcement:item', 'read:Dog:item', 'read:Dog:collection'])]
     private $isTolerant;
 
     #[ORM\Column(type: 'boolean', nullable: true)]
+    #[Groups(['read:Race:item', 'read:Announcement:item', 'read:Dog:item', 'read:Dog:collection'])]
     private $isLOF;
 
     #[ORM\OneToMany(mappedBy: 'dog', targetEntity: Picture::class)]
+    #[Groups(['read:Race:item', 'read:Announcement:item', 'read:Dog:item'])]
     private $pictures;
 
     #[ORM\ManyToMany(targetEntity: Race::class, inversedBy: 'dogs')]
+    #[Groups(['read:Dog:item', 'read:Announcement:item', 'read:Dog:collection'])]
     private $race;
 
     #[ORM\ManyToMany(targetEntity: Request::class, mappedBy: 'dogs')]
     private $requests;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(['read:Dog:item', 'read:Dog:collection'])]
     private $name;
 
     #[ORM\ManyToOne(targetEntity: Announcement::class, inversedBy: 'dogs', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['read:Dog:item'])]
     private $announcement;
 
     public function __construct()
