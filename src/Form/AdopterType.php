@@ -17,48 +17,61 @@ class AdopterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email',
+            ->add(
+                'email',
                 EmailType::class, // On peut lui donner un type (ici, on dit que c'est un input de type text
                 [
                     'required' => true, // On passe une option, pour préciser que ce champ est requis (ne doit pas être vide)
-                ])
-            ->add('plainPassword',
+                ]
+            )
+            ->add(
+                'plainPassword',
                 TextType::class, // On peut lui donner un type (ici, on dit que c'est un input de type text
                 [
-                    'required' => true, // On passe une option, pour préciser que ce champ est requis (ne doit pas être vide)
-                ])
-            ->add('town',
+                    'required' => false, // On passe une option, pour préciser que ce champ est requis (ne doit pas être vide)
+                ]
+            )
+            ->add(
+                'town',
                 TextType::class, // On peut lui donner un type (ici, on dit que c'est un input de type text
                 [
-                    'required' => true, // On passe une option, pour préciser que ce champ est requis (ne doit pas être vide)
-                ])
-            ->add('department',
+                    'required' => false, // On passe une option, pour préciser que ce champ est requis (ne doit pas être vide)
+                ]
+            )
+            ->add(
+                'department',
                 TextType::class, // On peut lui donner un type (ici, on dit que c'est un input de type text
                 [
-                    'required' => true, // On passe une option, pour préciser que ce champ est requis (ne doit pas être vide)
-                ])
-            ->add('firstName',
+                    'required' => false, // On passe une option, pour préciser que ce champ est requis (ne doit pas être vide)
+                ]
+            )
+            ->add(
+                'firstName',
                 TextType::class, // On peut lui donner un type (ici, on dit que c'est un input de type text
                 [
-                    'required' => true, // On passe une option, pour préciser que ce champ est requis (ne doit pas être vide)
-                ])
-            ->add('phone',
+                    'required' => false, // On passe une option, pour préciser que ce champ est requis (ne doit pas être vide)
+                ]
+            )
+            ->add(
+                'phone',
                 TelType::class, // On peut lui donner un type (ici, on dit que c'est un input de type text
                 [
-                    'required' => true, // On passe une option, pour préciser que ce champ est requis (ne doit pas être vide)
-                ])
-            ->add('lastName',
+                    'required' => false, // On passe une option, pour préciser que ce champ est requis (ne doit pas être vide)
+                ]
+            )
+            ->add(
+                'lastName',
                 TextType::class, // On peut lui donner un type (ici, on dit que c'est un input de type text
                 [
-                    'required' => true, // On passe une option, pour préciser que ce champ est requis (ne doit pas être vide)
-                ])
+                    'required' => false, // On passe une option, pour préciser que ce champ est requis (ne doit pas être vide)
+                ]
+            )
             ->add('submit', SubmitType::class, [
                 'label' => 'Valider',
                 'attr' => [
-                   'class' => 'btn btn-danger mt-3 mt-sm-0'
+                    'class' => 'btn btn-danger mt-3 mt-sm-0'
                 ]
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
