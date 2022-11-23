@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+
+
+	<div class="container d-flex flex-wrap justify-content-between">
+		{% for announcement in announcements %}
+			<div class="card overflow-auto m-3" style="max-width: 18rem; max-height: 500px;">
+				{% if announcement.getFirstPicture() %}
+					<img class="img-fluid img-thumbnail" style="height: 200px;" src=" {{ announcement.getFirstPicture().link }} " class=" card-img-top" alt=" ...">
+				{% else %}
+					<img class="img-fluid img-thumbnail" style="height: 200px;" src="..." class=" card-img-top" alt=" ...">
+				{% endif %}
+				<div class="card-body">
+					<h5 class="card-title">{{ announcement.title }}</h5>
+					<div class="card-text overflow-auto mb-1" style="max-height: 150px">{{ announcement.infos }}</div>
+					<!-- Boutton modal race -->
+					<button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#race{{announcement.id}}">
+						Races
+					</button>
+					<!-- Modal Race -->
+					<div class="modal fade" id="race{{announcement.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="race{{announcement.id}}">{{ announcement.title }}</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									{% for dog in announcement.dogs %}
+										{% for race in dog.race %}
+											<p class="card-text">{{ race.name }}</p>
+										{% endfor %}
+									{% endfor %}
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fermer</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Bouton modal message -->
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#annonce{{announcement.id}}">
+						Messages
+					</button>
+					<!-- Modal Message -->
+					<div class="modal fade" id="annonce{{announcement.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="annonce{{announcement.id}}">{{ announcement.title }}</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									{% for message in announcement.messages %}
+										<p>{{ message.text }}</p>
+									{% endfor %}
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fermer</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<small class="card-footer text-muted">{{ announcement.dateAnnouncement|date("d/m/Y") }}</small>
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}
